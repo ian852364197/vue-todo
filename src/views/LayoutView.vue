@@ -17,7 +17,9 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item" v-for="pageName in pages" :key="pageName">
-              <RouterLink class="nav-item" :to="{ name: pageName }">{{ pageName }}</RouterLink>
+              <RouterLink :to="{ name: pageName }"
+                ><button class="btn nav-item">{{ pageName }}</button></RouterLink
+              >
             </li>
           </ul>
         </div>
