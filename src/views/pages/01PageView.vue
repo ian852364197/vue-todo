@@ -1,5 +1,5 @@
 <template>
-  <h1>Hi</h1>
+  <h1>Todo List</h1>
   <!-- <table>
     <tr v-for="data in datas" :key="data.todoId">
       <td>{{ data.name }}</td>
@@ -10,7 +10,14 @@
       <td>{{ data.completeTime }}</td>
     </tr>
   </table> -->
-  <TodoCard v-for="data in datas" :key="data.todoId" :data="data"></TodoCard>
+  <div class="row">
+    <div class="col-5"></div>
+    <div class="col-7">
+      <div class="justify-content-center">
+        <TodoCard v-for="data in datas" :key="data.todoId" :data="data"></TodoCard>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
