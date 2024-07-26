@@ -46,6 +46,7 @@
           :key="data.todoId"
           :data="data"
           @complete="completeTodo"
+          @update="updateTodo"
         ></TodoCard>
       </div>
     </div>
@@ -69,6 +70,8 @@ const datas = ref();
 const name = ref('');
 const title = ref('');
 const todoContent = ref('');
+let updateFlag = false;
+let todoId = '';
 
 const refreshData = async () => {
   datas.value = [];
@@ -77,12 +80,23 @@ const refreshData = async () => {
 };
 
 const postTodo = async () => {
-  const req = {
-    name: name.value,
-    title: title.value,
-    todoContent: todoContent.value
-  };
-  await axiosapi.post('InsertTodo', req);
+  if (!updateFlag) {
+    const req = {
+      name: name.value,
+      title: title.value,
+      todoContent: todoContent.value
+    };
+    await axiosapi.post('InsertTodo', req);
+  } else {
+    const req = {
+      todoId: todoId,
+      name: name.value,
+      title: title.value,
+      todoContent: todoContent.value
+    };
+    console.log(req);
+    await axiosapi.put(`UpdateTodoContent/${todoId}`, req);
+  }
 };
 
 const completeTodo = async (id) => {
@@ -92,6 +106,14 @@ const completeTodo = async (id) => {
   };
   await axiosapi.put(`UpdateTodoStatus/${id}`, req);
   refreshData();
+};
+
+const updateTodo = async (data) => {
+  name.value = data.name;
+  title.value = data.title;
+  todoContent.value = data.todoContent;
+  todoId = data.todoId;
+  updateFlag = true;
 };
 
 onMounted(async () => {

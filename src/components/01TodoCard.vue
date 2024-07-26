@@ -16,7 +16,13 @@
         >
           完成
         </button>
-        <button class="btn btn-outline-primary" style="margin-left: 5px">編輯</button>
+        <button
+          class="btn btn-outline-primary"
+          style="margin-left: 5px"
+          @click="emits('update', data)"
+        >
+          編輯
+        </button>
         <button class="btn btn-outline-dark" style="margin-left: 5px">刪除</button>
       </li>
     </ul>
@@ -27,7 +33,7 @@
 import { computed, ref } from 'vue';
 
 const props = defineProps(['data']);
-const emits = defineEmits(['complete']);
+const emits = defineEmits(['complete', 'update']);
 
 const data = props.data;
 
