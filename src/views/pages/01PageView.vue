@@ -2,7 +2,7 @@
   <h1 style="margin-bottom: 10px">Todo List</h1>
   <div class="row">
     <div class="col-5">
-      <form @submit="postTodo">
+      <form @submit="saveTodo">
         <div class="mb-3">
           <h2>請填寫代辦事項</h2>
           <label for="inputName" class="form-label">姓名</label>
@@ -60,6 +60,7 @@ import axiosapi from '../../../plugins/axiosapi';
 import Swal from 'sweetalert2';
 import TodoCard from '@/components/01TodoCard.vue';
 
+//顯示loading直到取得資料
 Swal.fire({
   text: 'Loading......',
   showConfirmButton: false,
@@ -68,38 +69,40 @@ Swal.fire({
 
 const datas = ref();
 
+//輸入欄位
 const name = ref('');
 const title = ref('');
 const todoContent = ref('');
+//修改用
 let updateFlag = false;
 let todoId = '';
 
+//刷新datas的資料
 const refreshData = async () => {
   datas.value = [];
   const response = await axiosapi.get(`Get`);
   datas.value = [...response.data.returnData];
 };
 
-const postTodo = async () => {
+//儲存todo
+const saveTodo = async () => {
+  //共通的Request body
+  const req = {
+    name: name.value,
+    title: title.value,
+    todoContent: todoContent.value
+  };
   if (!updateFlag) {
-    const req = {
-      name: name.value,
-      title: title.value,
-      todoContent: todoContent.value
-    };
+    //新增
     await axiosapi.post('InsertTodo', req);
   } else {
-    const req = {
-      todoId: todoId,
-      name: name.value,
-      title: title.value,
-      todoContent: todoContent.value
-    };
-    console.log(req);
+    //修改，Request body需要todoId
+    req.todoId = todoId;
     await axiosapi.put(`UpdateTodoContent/${todoId}`, req);
   }
 };
 
+//修改todo為完成
 const completeTodo = async (id) => {
   let req = {
     todoId: id,
@@ -109,14 +112,17 @@ const completeTodo = async (id) => {
   refreshData();
 };
 
+//將todoCard中要更新的資料填入表單
 const updateTodo = (data) => {
   name.value = data.name;
   title.value = data.title;
   todoContent.value = data.todoContent;
+  //設定狀態為更新並記錄todoId
   todoId = data.todoId;
   updateFlag = true;
 };
 
+//刪除todo
 const deleteTodo = async (id) => {
   await axiosapi.delete(`Delete/${id}`);
   refreshData();

@@ -41,18 +41,22 @@ import { computed, ref } from 'vue';
 const props = defineProps(['data']);
 const emits = defineEmits(['complete', 'update', 'delete']);
 
+//從props取得資料
 const data = props.data;
-
 const name = ref(data.name);
 const title = ref(data.title);
 const content = ref(data.todoContent);
+//將Y、N計算為boolean
 const isComplete = computed(() => data.isComplete === 'Y');
+//設定completeTime
 const completeTime = computed(() => {
   if (isComplete.value) {
+    //已完成=>切割出日期與時間
     let date = data.completeTime.substring(0, 10).replaceAll('-', '/');
     let time = data.completeTime.substring(11, 19);
     return `已完成 | ${date} ${time}`;
   }
+  //未完成
   return '未完成';
 });
 </script>
