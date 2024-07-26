@@ -23,7 +23,13 @@
         >
           編輯
         </button>
-        <button class="btn btn-outline-dark" style="margin-left: 5px">刪除</button>
+        <button
+          class="btn btn-outline-dark"
+          style="margin-left: 5px"
+          @click="emits('delete', data.todoId)"
+        >
+          刪除
+        </button>
       </li>
     </ul>
   </div>
@@ -33,7 +39,7 @@
 import { computed, ref } from 'vue';
 
 const props = defineProps(['data']);
-const emits = defineEmits(['complete', 'update']);
+const emits = defineEmits(['complete', 'update', 'delete']);
 
 const data = props.data;
 

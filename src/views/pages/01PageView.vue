@@ -47,6 +47,7 @@
           :data="data"
           @complete="completeTodo"
           @update="updateTodo"
+          @delete="deleteTodo"
         ></TodoCard>
       </div>
     </div>
@@ -108,12 +109,17 @@ const completeTodo = async (id) => {
   refreshData();
 };
 
-const updateTodo = async (data) => {
+const updateTodo = (data) => {
   name.value = data.name;
   title.value = data.title;
   todoContent.value = data.todoContent;
   todoId = data.todoId;
   updateFlag = true;
+};
+
+const deleteTodo = async (id) => {
+  await axiosapi.delete(`Delete/${id}`);
+  refreshData();
 };
 
 onMounted(async () => {
