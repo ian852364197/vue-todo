@@ -9,7 +9,13 @@
     <ul class="list-group list-group-flush">
       <li class="list-group-item">{{ content }}</li>
       <li class="list-group-item d-flex justify-content-end">
-        <button v-if="!isComplete" class="btn btn-outline-primary">完成</button>
+        <button
+          v-if="!isComplete"
+          class="btn btn-outline-primary"
+          @click="emits('complete', data.todoId)"
+        >
+          完成
+        </button>
         <button class="btn btn-outline-primary" style="margin-left: 5px">編輯</button>
         <button class="btn btn-outline-dark" style="margin-left: 5px">刪除</button>
       </li>
@@ -21,6 +27,8 @@
 import { computed, ref } from 'vue';
 
 const props = defineProps(['data']);
+const emits = defineEmits(['complete']);
+
 const data = props.data;
 
 const name = ref(data.name);

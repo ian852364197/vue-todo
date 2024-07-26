@@ -41,7 +41,12 @@
     </div>
     <div class="col-7">
       <div class="justify-content-center">
-        <TodoCard v-for="data in datas" :key="data.todoId" :data="data"></TodoCard>
+        <TodoCard
+          v-for="data in datas"
+          :key="data.todoId"
+          :data="data"
+          @complete="completeTodo"
+        ></TodoCard>
       </div>
     </div>
   </div>
@@ -65,6 +70,12 @@ const name = ref('');
 const title = ref('');
 const todoContent = ref('');
 
+const refreshData = async () => {
+  datas.value = [];
+  const response = await axiosapi.get(`Get`);
+  datas.value = [...response.data.returnData];
+};
+
 const postTodo = async () => {
   const req = {
     name: name.value,
@@ -74,9 +85,17 @@ const postTodo = async () => {
   await axiosapi.post('InsertTodo', req);
 };
 
+const completeTodo = async (id) => {
+  let req = {
+    todoId: id,
+    isComplete: 'Y'
+  };
+  await axiosapi.put(`UpdateTodoStatus/${id}`, req);
+  refreshData();
+};
+
 onMounted(async () => {
-  const response = await axiosapi.get(`Get`);
-  datas.value = [...response.data.returnData];
+  refreshData();
   Swal.close();
 });
 </script>
