@@ -117,7 +117,7 @@ const updateTodo = (data) => {
   name.value = data.name;
   title.value = data.title;
   todoContent.value = data.todoContent;
-  //設定狀態為更新並記錄todoId
+  //設定狀態為修改並記錄todoId
   todoId = data.todoId;
   updateFlag = true;
 };

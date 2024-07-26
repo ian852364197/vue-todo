@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :class="cardClass" style="width: 80%; margin-bottom: 10px">
+  <div class="card" :class="cardClass" style="margin-bottom: 10px">
     <div class="card-header">
       <div class="d-flex justify-content-between">
         <div>{{ cardTitle }}</div>
@@ -39,14 +39,13 @@ const emits = defineEmits(['complete', 'update', 'delete']);
 
 //從props取得資料
 const data = props.data;
-const name = ref(data.name);
-const title = ref(data.title);
 const content = ref(data.todoContent);
 //將Y、N計算為boolean
 const isComplete = computed(() => data.isComplete === 'Y');
+//組合todo標題
 const cardTitle = computed(() => {
   let icon = isComplete.value ? '✅' : 'ℹ';
-  return icon + ' ' + name.value + '/ ' + title.value;
+  return icon + ' ' + data.name + '/ ' + data.title;
 });
 //設定completeTime
 const completeTime = computed(() => {
