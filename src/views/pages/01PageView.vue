@@ -38,7 +38,6 @@ onMounted(async () => {
   try {
     const response = await axiosapi.get(`Get`);
     datas.value = [...response.data.returnData];
-    console.log(datas);
     Swal.close();
   } catch (err) {
     Swal.fire({
