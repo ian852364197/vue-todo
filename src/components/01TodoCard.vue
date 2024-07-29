@@ -45,7 +45,7 @@ const isComplete = computed(() => data.isComplete === 'Y');
 //組合todo標題
 const cardTitle = computed(() => {
   let icon = isComplete.value ? '✅' : 'ℹ';
-  return icon + ' ' + data.name + '/ ' + data.title;
+  return `${icon} ${data.name} / ${data.title}`;
 });
 //設定completeTime
 const completeTime = computed(() => {

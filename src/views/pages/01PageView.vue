@@ -2,7 +2,7 @@
   <h1 style="margin-bottom: 10px">Todo List</h1>
   <div class="row">
     <div class="col-5">
-      <form @submit="saveTodo">
+      <form>
         <div class="mb-3">
           <h2>請填寫代辦事項</h2>
           <label for="inputName" class="form-label">姓名</label>
@@ -36,7 +36,7 @@
             required
           ></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">儲存</button>
+        <button type="submit" class="btn btn-primary" @click="saveTodo">儲存</button>
       </form>
     </div>
     <div class="col-7">
@@ -100,6 +100,7 @@ const saveTodo = async () => {
     req.todoId = todoId;
     await axiosapi.put(`UpdateTodoContent/${todoId}`, req);
   }
+  refreshData();
 };
 
 //修改todo為完成
