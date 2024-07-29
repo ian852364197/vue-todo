@@ -32,27 +32,27 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps(['data']);
 const emits = defineEmits(['complete', 'update', 'delete']);
 
 //從props取得資料
-const data = props.data;
-const content = ref(data.todoContent);
+const data = computed(() => props.data);
+const content = computed(() => data.value.todoContent);
 //將Y、N計算為boolean
-const isComplete = computed(() => data.isComplete === 'Y');
+const isComplete = computed(() => data.value.isComplete === 'Y');
 //組合todo標題
 const cardTitle = computed(() => {
   let icon = isComplete.value ? '✅' : 'ℹ';
-  return `${icon} ${data.name} / ${data.title}`;
+  return `${icon} ${data.value.name} / ${data.value.title}`;
 });
 //設定completeTime
 const completeTime = computed(() => {
   if (isComplete.value) {
     //已完成=>切割出日期與時間
-    let date = data.completeTime.substring(0, 10).replaceAll('-', '/');
-    let time = data.completeTime.substring(11, 19);
+    let date = data.value.completeTime.substring(0, 10).replaceAll('-', '/');
+    let time = data.value.completeTime.substring(11, 19);
     return `已完成 | ${date} ${time}`;
   }
   //未完成

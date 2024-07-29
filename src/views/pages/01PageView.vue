@@ -36,7 +36,7 @@
             required
           ></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" @click="saveTodo">儲存</button>
+        <button type="button" class="btn btn-primary" @click="saveTodo">儲存</button>
       </form>
     </div>
     <div class="col-7">
@@ -79,9 +79,12 @@ let todoId = '';
 
 //刷新datas的資料
 const refreshData = async () => {
-  datas.value = [];
   const response = await axiosapi.get(`Get`);
   datas.value = [...response.data.returnData];
+  name.value = '';
+  title.value = '';
+  todoContent.value = '';
+  updateFlag = false;
 };
 
 //儲存todo
