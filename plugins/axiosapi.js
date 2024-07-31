@@ -3,7 +3,8 @@ import Swal from 'sweetalert2';
 
 //環境變數取得URL
 const axiosapi = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL
+  // baseURL: import.meta.env.VITE_BACKEND_URL
+  baseURL: '/api'
 });
 
 //處理錯誤訊息
