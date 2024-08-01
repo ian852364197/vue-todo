@@ -40,7 +40,7 @@
       </form>
     </div>
     <div class="col-7">
-      <div class="justify-content-center">
+      <div class="justify-content-center invisible-scrollbar">
         <TodoCard
           v-for="data in datas"
           :key="data.todoId"
@@ -142,4 +142,12 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.invisible-scrollbar {
+  height: 85vh;
+  overflow: auto;
+}
+.invisible-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+</style>
