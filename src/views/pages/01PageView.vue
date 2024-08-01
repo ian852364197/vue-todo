@@ -80,7 +80,11 @@ let todoId = '';
 //刷新datas的資料
 const refreshData = async () => {
   const response = await axiosapi.get(`Get`);
-  datas.value = [...response.data.returnData];
+  datas.value = [...response.data.returnData].sort((a, b) => {
+    let aTime = new Date(a.addTime);
+    let bTime = new Date(b.addTime);
+    return bTime - aTime;
+  });
   name.value = '';
   title.value = '';
   todoContent.value = '';
