@@ -40,9 +40,12 @@
       </form>
     </div>
     <div class="col-7">
-      <div class="justify-content-center invisible-scrollbar">
+      <button class="btn" @click="hideComplete = !hideComplete" :class="buttonClass">
+        {{ hideBtnText }}
+      </button>
+      <div class="justify-content-center invisible-scrollbar" style="margin-top: 10px">
         <TodoCard
-          v-for="data in datas"
+          v-for="data in filterDatas"
           :key="data.todoId"
           :data="data"
           @complete="completeTodo"
@@ -55,7 +58,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import axiosapi from '../../../plugins/axiosapi';
 import Swal from 'sweetalert2';
 import TodoCard from '@/components/01TodoCard.vue';
@@ -67,7 +70,18 @@ Swal.fire({
   allowOutsideClick: false
 });
 
-const datas = ref();
+const datas = ref([]);
+const hideComplete = ref(false);
+const hideBtnText = computed(() => (hideComplete.value ? '顯示全部' : '隱藏已完成'));
+const buttonClass = computed(() => {
+  return {
+    'btn btn-outline-success': hideComplete.value,
+    'btn btn-outline-primary': !hideComplete.value
+  };
+});
+const filterDatas = computed(() =>
+  hideComplete.value ? datas.value.filter((data) => data.isComplete === 'N') : datas.value
+);
 
 //輸入欄位
 const name = ref('');
